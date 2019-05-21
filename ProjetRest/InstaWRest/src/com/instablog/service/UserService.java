@@ -53,7 +53,7 @@ public class UserService {
    
    @POST
    @Path("/users") 
-   @Produces(MediaType.APPLICATION_XML) 
+   @Produces(MediaType.APPLICATION_JSON) 
    public String createUser(String user){ 
 	   userDao.createUser(user);
 	   return user;
