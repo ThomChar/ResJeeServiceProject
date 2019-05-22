@@ -20,6 +20,8 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import Model.User;
+import ParserXML.Parser;
+import ParserXML.ParserUsers;
 
 public class GestionUser {
 	
@@ -43,7 +45,7 @@ public class GestionUser {
                 accept(MediaType.APPLICATION_XML).
                 get(Response.class);
         
-        String plainAnswer = target.path("rest").path("UserService")
+        String usersXML = target.path("rest").path("UserService")
                 .path("users").
                 request().
                 accept(MediaType.APPLICATION_XML).
@@ -51,68 +53,25 @@ public class GestionUser {
                 .toString();
         
         System.out.println(response);
-        System.out.println(plainAnswer);
+        //System.out.println(usersXML);
         
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder;
-        try {
-            dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = convertStringToDocument(plainAnswer);
-            doc.getDocumentElement().normalize();
-            
-            
-            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-            NodeList nodeList = doc.getElementsByTagName("user");
-            
-            //now XML is loaded as Document in memory, lets convert it to Object List
-            List<User> empList = new ArrayList<User>();
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                empList.add(getUser(nodeList.item(i)));
-            }
-            System.out.println("Les utilisateurs :");
-            //lets print Employee list information
-            for (User emp : empList) {
-                System.out.println(emp.toString());
-            }
-        } catch (Exception e1) {
-            e1.printStackTrace();
+        
+        List<User> users = ParserUsers.getUsersXML(usersXML);
+        if(users != null) {
+        	System.out.println("Les utilisateurs :");
+	        for(User user : users) {
+	        	System.out.println(user.toString());
+	        }
+        }
+        else {
+        	System.out.println("Il n'y a pour le moment aucun utilisateur !");
         }
 	}
 	
-	private static User getUser(Node node) {
-	    //XMLReaderDOM domReader = new XMLReaderDOM();
-	    User emp = new User();
-	    if (node.getNodeType() == Node.ELEMENT_NODE) {
-	        Element element = (Element) node;
-	        emp.setName(getTagValue("name", element));
-	        emp.setLastname(getTagValue("lastname", element));
-	        emp.setId(Integer.parseInt(getTagValue("id", element)));
-	        emp.setPseudo(getTagValue("pseudo", element));
-	    }
-
-	    return emp;
-	}
-
-
-	private static String getTagValue(String tag, Element element) {
-	    NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
-	    Node node = (Node) nodeList.item(0);
-	    return node.getNodeValue();
-	}
 	
-    private static Document convertStringToDocument(String xmlStr) {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
-        DocumentBuilder builder;  
-        try  
-        {  
-            builder = factory.newDocumentBuilder();  
-            Document doc = builder.parse( new InputSource( new StringReader( xmlStr ) ) ); 
-            return doc;
-        } catch (Exception e) {  
-            e.printStackTrace();  
-        } 
-        return null;
-    }
+
+
+	
 }
 
 

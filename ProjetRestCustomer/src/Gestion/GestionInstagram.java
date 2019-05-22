@@ -1,5 +1,7 @@
 package Gestion;
 
+import ParserXML.Parser;
+
 public class GestionInstagram {
 
 	private String webApiUrl;
@@ -25,6 +27,4 @@ public class GestionInstagram {
 	public void setGestionUser(GestionUser gestionUser) {
 		this.gestionUser = gestionUser;
 	}
-	
-	
 }
