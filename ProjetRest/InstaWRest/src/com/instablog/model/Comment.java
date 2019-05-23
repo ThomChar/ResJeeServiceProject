@@ -63,7 +63,7 @@ public class Comment implements Serializable {
 		this.isActive = true;
 	}
 
-	public Comment(String message, String string, User user, Post post) {
+	public Comment(String message, String commentDate, User user, Post post) {
 		this.message = message;
 		this.commentDate = commentDate;
 		this.user = user;
