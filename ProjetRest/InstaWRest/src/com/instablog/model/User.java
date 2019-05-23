@@ -83,7 +83,7 @@ public class User implements Serializable {
 		return id;
 	}
 
-	@XmlElement
+	@XmlElement(name="idUser")
 	public void setId(int id) {
 		this.id = id;
 	}

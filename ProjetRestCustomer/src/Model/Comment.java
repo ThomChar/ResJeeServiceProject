@@ -100,6 +100,6 @@ public class Comment {
 	@Override
 	public String toString() {
 		return "@"+user.getPseudo() + "(id="+user.getId()+")"+
-				message + post.toString();
+				message + " -> Poste: " + post.toString();
 	}
 }

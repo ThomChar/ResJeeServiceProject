@@ -97,30 +97,27 @@ public class CommentService {
 	
 	       }
 	       
-		   try {
-			   LocalDateTime creationDate = LocalDateTime.now();
-			   
-			   User user = userDao.getUserById(userId);
-			   Post post = postDao.getPostById(postId);
-			   Comment commentRefered = new Comment();
-			   
-			   if(commentId != 0) {
-				   commentRefered = commentDao.getCommentById(commentId);
-				   if(commentRefered.getPost().getId() == post.getId()) {
-					   comment = new Comment(message, creationDate.toString(), user, post , commentRefered);
-				   }else {
-					   throw new InstaException("commentResponse doit coincider avec post_id dans le cas ou il n'est pas null");
-				   }
+		   LocalDateTime creationDate = LocalDateTime.now();
+		   
+		   User user = userDao.getUserById(userId);
+		   Post post = postDao.getPostById(postId);
+		   Comment commentRefered = new Comment();
+		   
+		   if(commentId != 0) {
+			   commentRefered = commentDao.getCommentById(commentId);
+			   if(commentRefered.getPost().getId() == post.getId()) {
+				   comment = new Comment(message, creationDate.toString(), user, post , commentRefered);
 			   }else {
-				   //commentRefered.setId(0);
-				   comment = new Comment(message, creationDate.toString(), user, post);
+				   throw new Exception("commentResponse doit coincider avec post_id dans le cas ou il n'est pas null");
 			   }
-			   
-			   commentDao.createComment(comment);
+		   }else {
+			   //commentRefered.setId(0);
+			   comment = new Comment(message, creationDate.toString(), user, post);
+		   }
+		   
+		   commentDao.createComment(comment);
 			 
-			} catch (Exception e) {
-				throw new InstaException("Les parametres ne sont pas corrects (message,userId,postId,commentId), veuillez les verifier les parametres entres");
-			}
+
 		   return Response.ok().build();
 	   } catch(Exception e) {
 		   System.out.println("ERROR:"+e.getMessage());
@@ -185,12 +182,12 @@ public class CommentService {
 	       //headers.getHeaderString("authentificationToken")
 	       if (!TokenManagement.verifyToken(headers,UUID)) {
 	
-	             throw new NotAuthorizedException("Invalid token");
+	             throw new Exception("Invalid token");
 	
 	       }
 		   deleted = commentDao.deleteCommentById(id); 
 		   if (!deleted)
-			   throw new NotAuthorizedException("Error, Comment can t be deleted");
+			   throw new Exception("Error, Comment can t be deleted");
 
 		   return Response.ok().build();
 		   

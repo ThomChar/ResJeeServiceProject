@@ -1,8 +1,6 @@
 package com.instablog.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -65,7 +63,6 @@ public class Comment implements Serializable {
 
 	public Comment(String message, String string, User user, Post post) {
 		this.message = message;
-		this.commentDate = commentDate;
 		this.user = user;
 		this.post = post;
 		//this.commentResponse = commentRefered;
@@ -76,7 +73,7 @@ public class Comment implements Serializable {
 		return id;
 	}
 
-	@XmlElement
+	@XmlElement(name ="idComment")
 	public void setId(int id) {
 		this.id = id;
 	}
