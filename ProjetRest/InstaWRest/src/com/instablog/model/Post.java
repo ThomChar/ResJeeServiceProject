@@ -59,7 +59,7 @@ public class Post implements Serializable {
 		return id;
 	}
 
-	@XmlElement
+	@XmlElement(name="idPost")
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -77,7 +77,7 @@ public class Post implements Serializable {
 		return comment;
 	}
 
-	@XmlElement
+	@XmlElement(name="commentPost")
 	public void setComment(String comment) {
 		this.comment = comment;
 	}

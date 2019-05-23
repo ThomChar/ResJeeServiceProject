@@ -21,7 +21,7 @@ public class ParserUsers {
 	        Element element = (Element) node;
 	        emp.setFirstName(Parser.getTagValue("firstname", element));
 	        emp.setLastname(Parser.getTagValue("lastname", element));
-	        emp.setId(Integer.parseInt(Parser.getTagValue("id", element)));
+	        emp.setId(Integer.parseInt(Parser.getTagValue("idUser", element)));
 	        emp.setPseudo(Parser.getTagValue("pseudo", element));
 	        emp.setDateCreation(Parser.getTagValue("dateCreation", element));
 	    }
