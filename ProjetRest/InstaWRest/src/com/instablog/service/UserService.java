@@ -17,7 +17,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.instablog.connexion.Connexion;
-import com.instablog.connexion.InstaException;
 import com.instablog.connexion.TokenManagement;
 import com.instablog.dao.UserDao;
 import com.instablog.model.User;  
@@ -31,20 +30,19 @@ public class UserService {
    @GET 
    @Path("/users") 
    @Produces(MediaType.APPLICATION_XML) 
-   public Response getUsers() throws InstaException{ 	  
+   public List<User>  getUsers() { 	  
       try {
-		   List<User> users = userDao.getAllUsers(); 
-		   return Response.ok(users).build();
+		   return userDao.getAllUsers(); 
       } catch(Exception e) {
 		   System.out.println("ERROR:"+e.getMessage());
-		   return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+		   return null;
 	   }
    } 
    
    @GET 
    @Path("/users/{id}") 
    @Produces(MediaType.APPLICATION_XML) 
-   public Response getUser(@PathParam("id") String id) throws Exception{ 
+   public Response getUser(@PathParam("id") String id) { 
       try {
     	  User user =  userDao.getUserById( Integer.parseInt(id)); 
 	      return Response.ok(user).build();
@@ -57,7 +55,7 @@ public class UserService {
    @GET 
    @Path("/users/pseudo/{pseudo}") 
    @Produces(MediaType.APPLICATION_XML) 
-   public Response getUserByPseudo(@PathParam("pseudo") String pseudo) throws Exception{ 
+   public Response getUserByPseudo(@PathParam("pseudo") String pseudo) { 
       try {
     	  User user = userDao.getUserAccountByPseudo(pseudo); 
 	      return Response.ok(user).build();
@@ -70,7 +68,7 @@ public class UserService {
    @POST
    @Path("/users/login") 
    @Produces(MediaType.APPLICATION_XML) 
-   public Response login(@FormParam("pseudo") String pseudo, @FormParam("password") String password) throws Exception{ 
+   public Response login(@FormParam("pseudo") String pseudo, @FormParam("password") String password) { 
 	   // Authenticate the user using the credentials provided
 	   try {
 		   String token = null;
@@ -108,7 +106,7 @@ public class UserService {
    @DELETE
    @Path("/users/logout/{id}") 
    @Produces(MediaType.APPLICATION_XML) 
-   public Response logout(@PathParam("id") int id, @HeaderParam(value="authentificationToken") String headers) throws Exception{ 
+   public Response logout(@PathParam("id") int id, @HeaderParam(value="authentificationToken") String headers) { 
 	   try {
 	   
 		   String UUID ="";
@@ -147,7 +145,7 @@ public class UserService {
    @DELETE
    @Path("/users/logout/") 
    @Produces(MediaType.APPLICATION_XML) 
-   public Response logoutAllUser() throws Exception{     
+   public Response logoutAllUser() {     
 	   try {
 	       try{
 	    	   userDao.logoutAllUser();
@@ -166,7 +164,7 @@ public class UserService {
    @POST
    @Path("/users") 
    @Produces(MediaType.APPLICATION_XML) 
-   public Response createUser(@FormParam("firstname") String firstname, @FormParam("lastname") String lastname, @FormParam("pseudo") String pseudo, @FormParam("password") String password) throws InstaException{ 
+   public Response createUser(@FormParam("firstname") String firstname, @FormParam("lastname") String lastname, @FormParam("pseudo") String pseudo, @FormParam("password") String password) { 
 	   try {
 		   User user = null;
 		   if(userDao.existe(pseudo)) {
@@ -187,7 +185,7 @@ public class UserService {
    @PUT 
    @Path("/users/{id}") 
    @Produces(MediaType.APPLICATION_XML) 
-   public Response updateUserById(@PathParam("id") int id,@FormParam("firstname") String firstname, @FormParam("lastname") String lastname,  @FormParam("pseudo") String pseudo, @HeaderParam(value="authentificationToken") String headers) throws Exception{ 
+   public Response updateUserById(@PathParam("id") int id,@FormParam("firstname") String firstname, @FormParam("lastname") String lastname,  @FormParam("pseudo") String pseudo, @HeaderParam(value="authentificationToken") String headers) { 
 	   try {
 		   boolean updated = false;
 		   String UUID ="";
@@ -221,7 +219,7 @@ public class UserService {
    @DELETE 
    @Path("/users/{id}") 
    @Produces(MediaType.APPLICATION_XML) 
-   public Response deleteUser(@PathParam("id") String id, @HeaderParam(value="authentificationToken") String headers) throws Exception{ 
+   public Response deleteUser(@PathParam("id") String id, @HeaderParam(value="authentificationToken") String headers) { 
 	   try {
 		   boolean deleted = false;
 		   String UUID ="";

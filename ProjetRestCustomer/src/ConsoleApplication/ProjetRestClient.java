@@ -129,7 +129,6 @@ public class ProjetRestClient {
                 }
                 else if(command.equals("supprimerProfile")) 
                 {
-                	String id = readString(tokenizer);
                 	gestionInstagram.getGestionUser().delete();
                 }
                 else

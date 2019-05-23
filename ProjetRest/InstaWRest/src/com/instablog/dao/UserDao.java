@@ -30,7 +30,6 @@ public class UserDao {
 	
 	public List<User> getAllUsers() throws InstaException {
 		List<User> userList = null;
-		this.em = EMFManager.getEntityManager();
 		try {
 			this.em.getTransaction().begin();
 			Query query = em.createQuery("select u from user u where isActive = true") ;  

@@ -41,13 +41,7 @@ public class GestionUser {
         
         if(response.getStatus()==200) // OK
         {
-        	String usersXML = target.request().
-                    accept(MediaType.APPLICATION_XML).
-                    get(String.class)
-                    .toString();
-            
-            //System.out.println(response);
-
+        	String usersXML = response.readEntity(String.class);
             List<User> users = ParserUsers.getUsersXML(usersXML);
             if(users != null) {
             	System.out.println("Les utilisateurs :");
@@ -72,13 +66,8 @@ public class GestionUser {
 		
 		if(response.getStatus()==200) // OK
         {
-			String usersXML = target.path(idUtilisateur).
-	                request().
-	                accept(MediaType.APPLICATION_XML).
-	                get(String.class)
-	                .toString();
-
-	        User user = ParserUsers.getUserXML(usersXML);
+			String userXML = response.readEntity(String.class);
+	        User user = ParserUsers.getUserXML(userXML);
 	        System.out.println(user.toString());
         } else {
 			String serverErrorMsg = response.readEntity(String.class);
@@ -220,16 +209,13 @@ public class GestionUser {
 				.header("authentificationToken", gestionInstagram.getToken())
 				.accept(MediaType.APPLICATION_XML).delete();
 
-		System.out.print("response"+response.getStatusInfo());
 		
 		if(response.getStatus() == 200) {
-			System.out.println(response.toString());
 			System.out.println("La suppression a été effectuée.");
-			//System.out.println(user.toString());
 			
 		} else {
-			System.out.println("La suppression n'a pu être effectuée.");
-			System.out.println(response.toString());
+			String serverErrorMsg = response.readEntity(String.class);
+			System.out.println("ERROR : "+ serverErrorMsg);
 		}
 	}
 	
