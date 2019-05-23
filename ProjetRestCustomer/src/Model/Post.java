@@ -1,29 +1,41 @@
 package Model;
 
-import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "post")
-
-public class Post implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Post{
 	private int id;
 	private String image;
 	private String comment;
 	private String postDate;
-	private int id_user;
 
+	private User user;
+	
+	private Collection< Comment > listeComments;
+	
 	public Post() {
 	}
 
-	public Post(int id, String image, String comment, String postDate, int id_user) {
+	public Post(int id, String image, String comment, String postDate) {
 		this.id = id;
 		this.image = image;
 		this.comment = comment;
 		this.postDate = postDate;
-		this.id_user = id_user;
+	}
+
+	public Post(String image, String comment, String postDate, User user) {
+		this.image = image;
+		this.comment = comment;
+		this.postDate = postDate;
+		this.user = user;
+	}
+	
+	public Post(String image, String comment, String postDate) {
+		this.image = image;
+		this.comment = comment;
+		this.postDate = postDate;
 	}
 
 	public int getId() {
@@ -62,20 +74,26 @@ public class Post implements Serializable {
 		this.postDate = postDate;
 	}
 
-	public int getId_user() {
-		return id_user;
+	public User getUser() {
+		return user;
 	}
 
 	@XmlElement
-	public void setId_user(int id_user) {
-		this.id_user = id_user;
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Collection<Comment> getListeComments() {
+		return listeComments;
+	}
+
+	@XmlElement
+	public void setListeComments(List<Comment> listeComments) {
+		this.listeComments = listeComments;
 	}
 
 	@Override
 	public String toString() {
-		return "Post [id=" + id + ", image=" + image + ", comment=" + comment + ", postDate=" + postDate + ", id_user="
-				+ id_user + "]";
-	}
-
-	
+		return "Post (id=" + id + ") " + "@" + user.getPseudo() + " : " +comment;
+	}	
 }

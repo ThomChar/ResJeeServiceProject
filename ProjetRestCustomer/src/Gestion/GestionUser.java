@@ -131,6 +131,9 @@ public class GestionUser {
 	
 	public void logout() {
 		
+		if(!gestionInstagram.userIsConnected())
+			return;
+		
 		Response response = target.path("logout")
 				.path(Integer.toString(gestionInstagram.getUserConnected().getId()))
 				.request().accept(MediaType.APPLICATION_XML).delete();
@@ -163,7 +166,10 @@ public class GestionUser {
 	}
 	
 	public void update(String firstName, String lastName, String pseudo) {
-
+		
+		if(!gestionInstagram.userIsConnected())
+			return;
+		
 		Form form = new Form();
 		   form.param("firstname", firstName)
 		   .param("lastname", lastName)
@@ -191,6 +197,10 @@ public class GestionUser {
 	}
 	
 	public void delete() {
+		
+		if(!gestionInstagram.userIsConnected())
+			return;
+		
 		BufferedReader keyboard=new BufferedReader(new InputStreamReader(System.in));
 		String confirm = "";
 		do {
@@ -220,7 +230,7 @@ public class GestionUser {
 	}
 	
 	public void displayHelp() {
-		System.out.println("***** AIDE MANIPULATION DE L'UTILISATEUR *****");
+		System.out.println("***** AIDE MANIPULATIONS DES UTILISATEURS *****");
 		System.out.println("afficherUtilisateurs");
 		System.out.println("afficherUtilisateur,<id>");
 		System.out.println("ajouterUtilisateur,<pseudo>,<prénom>,<nom>,<mot de passe>");

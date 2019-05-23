@@ -93,7 +93,7 @@ public class PostDao {
 					this.em.close();
 				} catch (Exception e) {
 					this.em.getTransaction().rollback();
-					throw new InstaException("Le post "+ id +" n a pas pu etre affiche");
+					throw new InstaException("Le post demandé n'existe pas.");
 				}
 				return post;
 	}

@@ -94,9 +94,13 @@ public class ProjetRestClient {
                 {
                 	System.out.println("Vous pouvez utilisez les commandes suivantes");
                 	gestionInstagram.getGestionUser().displayHelp();
-                	// gestionPost.help();
-                	// gestionComment.help();
+                	GestionInstagram.getGestionPost().displayHelp();
                 }
+                
+                /**
+                 * 		User Management
+                 */
+                
                 else if(command.equals("afficherUtilisateurs")) 
                 {
                 	gestionInstagram.getGestionUser().displayUsers();
@@ -131,6 +135,48 @@ public class ProjetRestClient {
                 {
                 	gestionInstagram.getGestionUser().delete();
                 }
+                
+                /**
+                 * 		Post Management
+                 */
+                
+                else if(command.equals("afficherPostes")) 
+                {
+                	GestionInstagram.getGestionPost().displayPosts();
+                }
+                else if(command.equals("afficherPoste")) 
+                {
+                	String idPost = readString(tokenizer);
+                	GestionInstagram.getGestionPost().displayPost(idPost);
+                }
+                else if(command.equals("afficherPostesPourUtilisateur")) 
+                {
+                	String idUtilisateur = readString(tokenizer);
+                	GestionInstagram.getGestionPost().displayPostsForUser(idUtilisateur);
+                }
+                else if(command.equals("ajoutPoste")) 
+                {
+                	String comment = readString(tokenizer);
+                	String image = readString(tokenizer);
+                	GestionInstagram.getGestionPost().ajouter(comment, image);
+                }
+                else if(command.equals("modifierPoste")) 
+                {
+                	String idPost = readString(tokenizer);
+                	String comment = readString(tokenizer);
+                	String image = readString(tokenizer);
+                	GestionInstagram.getGestionPost().update(idPost, comment, image);
+                }
+                else if(command.equals("supprimerPoste")) 
+                {
+                	String idPost = readString(tokenizer);
+                	GestionInstagram.getGestionPost().delete(idPost);
+                }
+                
+                
+                /**
+                 * 		PAR DEFAUT
+                 */
                 else
                 {
                     System.out.println(" : Transaction non reconnue");
