@@ -238,7 +238,7 @@ public class UserService {
 	       if (!TokenManagement.verifyToken(headers,UUID))
 	             throw new NotAuthorizedException("Invalid token");
 
-		   String logout = this.logout(Integer.parseInt(id), authentificationToken);
+		   this.logout(Integer.parseInt(id), headers);
 		   deleted = userDao.deleteUserById( Integer.parseInt(id)); 
 		   if (!deleted) 
 			   throw new Exception("L'utilisateur ne peut pas être supprimé");

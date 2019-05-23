@@ -61,12 +61,12 @@ public class UserDao {
 			List <User> listUser = query.getResultList() ;
 			user = listUser.get(0);
 			//Recherche liste post associer
-			listePosts = query2.getResultList();
+			//listePosts = query2.getResultList();
 			//System.out.println(listePosts.toString());
 			//System.out.println(listePosts);
 			//user.setListePosts(listePosts);
 			//Recherche liste des commentaire associer
-			listeComments =  query3.getResultList();
+			//listeComments =  query3.getResultList();
 			//System.out.println(listeComments);
 			//user.setListeComments(listeComments);
 			// Commit
