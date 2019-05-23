@@ -114,7 +114,7 @@ public class UserService {
 	           User userBD = userDao.getUserById(id);
 	           UUID = userBD.getUUID();
 	       }catch(Exception e){
-	           throw new Exception("Vous n'êtes pas connecté.");
+	           throw new Exception("Vous n'Ãªtes pas connectÃ©.");
 	       }
 	       
 	       //headers.getHeaderString("authentificationToken")
@@ -130,10 +130,10 @@ public class UserService {
 	    	   if(userDao.getUserById(id).getUUID()!=null)
 	    	   userDao.changeUserUUID(id, null);
 	       }catch(Exception e){
-	           throw new Exception("Le user ne peut pas être deconnecté");
+	           throw new Exception("Le user ne peut pas Ãªtre deconnectÃ©");
 	       }
 	       
-		   String message = "User "+id+" est maintenant deconnecté";
+		   String message = "User "+id+" est maintenant deconnectÃ©";
 		   return Response.status(Response.Status.OK).entity(message).build();
 		   
 	   } catch(Exception e) {
@@ -150,10 +150,10 @@ public class UserService {
 	       try{
 	    	   userDao.logoutAllUser();
 	       }catch(Exception e){
-	           throw new Exception("L'ensemble des user ne peut être deconnecté");
+	           throw new Exception("L'ensemble des user ne peut Ãªtre deconnectÃ©");
 	       }  	   
 
-		   String message = "Tous les utilisateurs sont maintenant deconnectés";;
+		   String message = "Tous les utilisateurs sont maintenant deconnectÃ©s";;
 		   return Response.status(Response.Status.OK).entity(message).build();
 	   } catch(Exception e) {
 		   System.out.println("ERROR:"+e.getMessage());
@@ -193,7 +193,7 @@ public class UserService {
 	           User userBD = userDao.getUserById(id);
 	           UUID = userBD.getUUID();
 	       }catch(Exception e){
-	           throw new Exception("L id user du token ne correspond à aucun utilisateur");
+	           throw new Exception("L id user du token ne correspond Ã  aucun utilisateur");
 	       }
 	       
 	       //headers.getHeaderString("authentificationToken")
@@ -204,7 +204,7 @@ public class UserService {
 		   updated = userDao.updateUserById( id, firstname, lastname, pseudo); 
 		   
 		   if (!updated)
-			   throw new Exception("L id user du token ne correspond à aucun utilisateur");
+			   throw new Exception("L id user du token ne correspond Ã  aucun utilisateur");
 		   
 		   User user =  userDao.getUserById(id);
 		   
@@ -227,15 +227,16 @@ public class UserService {
 	           User userBD = userDao.getUserById(Integer.parseInt(id));
 	           UUID = userBD.getUUID();
 	       }catch(Exception e){
-	           throw new Exception("Le userIDMember du token ne correspond à aucun utilisateur");
+	           throw new Exception("Le userIDMember du token ne correspond Ã  aucun utilisateur");
 	       }
 
 	       if (!TokenManagement.verifyToken(headers,UUID))
 	             throw new NotAuthorizedException("Invalid token");
 
+		   String logout = this.logout(Integer.parseInt(id), authentificationToken);
 		   deleted = userDao.deleteUserById( Integer.parseInt(id)); 
 		   if (!deleted) 
-			   throw new Exception("L'utilisateur ne peut pas être supprimé");
+			   throw new Exception("L'utilisateur ne peut pas Ãªtre supprimÃ©");
 
 		   return Response.ok().build();
 		   
