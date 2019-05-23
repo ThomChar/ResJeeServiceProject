@@ -87,7 +87,7 @@ public class CommentService {
 	           User userBD = userDao.getUserById(userId);
 	           UUID = userBD.getUUID();
 	       }catch(Exception e){
-	           throw new Exception("Le userIDMember du token ne correspond à aucun utilisateur");
+	           throw new Exception("Le userIDMember du token ne correspond Ã  aucun utilisateur");
 	       }
 	       
 	       //headers.getHeaderString("authentificationToken")
@@ -135,12 +135,12 @@ public class CommentService {
 	   try {
 		   boolean updated = false;
 		   String UUID ="";
-		   try{
-			   Comment comment = commentDao.getCommentById(id);
-	           User userBD = userDao.getUserById(comment.getId());
+		try{
+		   Comment comment = commentDao.getCommentById(id);
+		   User userBD = userDao.getUserById(comment.getUser().getId());
 	           UUID = userBD.getUUID();
 	       }catch(Exception e){
-	           throw new Exception("Le userIDMember du token ne correspond à aucun utilisateur");
+	           throw new Exception("Le userIDMember du token ne correspond Ã  aucun utilisateur");
 	       }
 	       
 	       //headers.getHeaderString("authentificationToken")
@@ -179,7 +179,7 @@ public class CommentService {
 	           User userBD = comment.getUser();
 	           UUID = userBD.getUUID();
 	       }catch(Exception e){
-	           throw new Exception("Le userIDMember du token ne correspond à aucun utilisateur");
+	           throw new Exception("Le userIDMember du token ne correspond Ã  aucun utilisateur");
 	       }
 	       
 	       //headers.getHeaderString("authentificationToken")
