@@ -22,9 +22,13 @@ public class Parser {
 	
 	
 	public static String getTagValue(String tag, Element element) {
-	    NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
-	    Node node = (Node) nodeList.item(0);
+		try {
+		    NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+		    Node node = (Node) nodeList.item(0);
 	    return node.getNodeValue();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 	public static Document convertStringToDocument(String xmlStr) {

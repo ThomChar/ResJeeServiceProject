@@ -23,7 +23,6 @@ public class CommentDao {
 	      
 	      List<Comment> commentList = null; 
 	      this.em = EMFManager.getEntityManager();
-			User user = null ;
 			try {
 				this.em.getTransaction().begin();
 				Query query = em.createQuery("select c from comment c where isActive = true") ;  

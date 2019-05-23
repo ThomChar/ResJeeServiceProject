@@ -40,7 +40,7 @@ public class PostService {
    @GET 
    @Path("/posts/User/{id}") 
    @Produces(MediaType.APPLICATION_XML) 
-   public List<Post> getPostByUserId(@PathParam("id") int id) throws NumberFormatException, InstaException{ 
+   public List<Post> getPostByUserId(@PathParam("id") int id) { 
     	  List<Post> postList= postDao.getAllPostsUserId(id);
 	      return postList;
    }
@@ -48,7 +48,7 @@ public class PostService {
    @GET 
    @Path("/posts/{id}") 
    @Produces(MediaType.APPLICATION_XML) 
-   public Response getPost(@PathParam("id") int id) throws NumberFormatException, InstaException{ 
+   public Response getPost(@PathParam("id") int id) { 
 	   try {
 		   Post post =  postDao.getPostById(id);
 	      return Response.ok(post).build();
@@ -61,7 +61,7 @@ public class PostService {
    @POST
    @Path("/posts") 
    @Produces(MediaType.APPLICATION_XML) 
-   public Response createPost(@FormParam("comment") String comment, @FormParam("image") String image, @FormParam("userId") int userId, @HeaderParam(value="authentificationToken") String headers) throws Exception{ 
+   public Response createPost(@FormParam("comment") String comment, @FormParam("image") String image, @FormParam("userId") int userId, @HeaderParam(value="authentificationToken") String headers) { 
 	   try {
 		   Post post = null;
 		   String UUID ="";
@@ -95,7 +95,7 @@ public class PostService {
    @PUT 
    @Path("/posts/{id}") 
    @Produces(MediaType.APPLICATION_XML) 
-   public Response updatePostById(@PathParam("id") int id, @FormParam("comment") String comment, @FormParam("image") String image, @HeaderParam(value="authentificationToken") String headers) throws Exception{ 
+   public Response updatePostById(@PathParam("id") int id, @FormParam("comment") String comment, @FormParam("image") String image, @HeaderParam(value="authentificationToken") String headers) { 
 	   try {
 		   boolean updated = false;
 		   String UUID ="";
@@ -112,12 +112,11 @@ public class PostService {
 	             throw new NotAuthorizedException("Invalid token");
 	       }
 	       
-		   String response = "Error, Post can t be updated ";
 		   try {		   
 			   updated = postDao.updatePostById(id, comment, image); 
-			   if (updated) {
-				   response = "Post " + id + " updated";
-			   }
+			   if (!updated) 
+				   throw new InstaException("Error, Post can t be updated");
+			   
 			} catch (Exception e) {
 				throw new InstaException("Les parametres ne sont pas corrects (comment,image), veuillez les verifier les parametres entres");
 			}
@@ -135,9 +134,8 @@ public class PostService {
    @DELETE 
    @Path("/posts/{id}") 
    @Produces(MediaType.APPLICATION_XML) 
-   public Response DeletePost(@PathParam("id") int id, @HeaderParam(value="authentificationToken") String headers) throws Exception{ 
+   public Response DeletePost(@PathParam("id") int id, @HeaderParam(value="authentificationToken") String headers) { 
 	   try {
-		   boolean deleted = false;
 		   String UUID ="";
 		   try{
 			   Post post = postDao.getPostById(id);
@@ -153,12 +151,10 @@ public class PostService {
 	             throw new NotAuthorizedException("Invalid token");
 	
 	       }
-		   String response = "Error, Post can t be deleted ";
-		   deleted = postDao.deletePostById(id); 
-		   if (deleted) {
-			   response = "Post " + id + " delete";
-		   }
-
+	       boolean deleted = postDao.deletePostById(id); 
+		   if (!deleted) 
+			   throw new NotAuthorizedException("Error, Post can t be deleted");
+		   
 		   return Response.ok().build();
 		   
 	   } catch(Exception e) {

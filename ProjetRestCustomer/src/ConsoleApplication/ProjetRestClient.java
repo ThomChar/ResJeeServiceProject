@@ -4,35 +4,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
-import java.lang.Object;
-
-import java.net.URI;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import javax.xml.bind.JAXBContext;
-
-import org.glassfish.jersey.client.ClientConfig;
-
-import com.sun.xml.internal.ws.util.Pool.Unmarshaller;
 
 import Gestion.*;
-import Model.*;
 
 public class ProjetRestClient {
 	
 	private static String webApiUrl;
-	private static List<String> transactionParams;
 	private static GestionInstagram gestionInstagram;
 	 /**
      * @param args
@@ -46,7 +25,6 @@ public class ProjetRestClient {
         }
     	
     	webApiUrl = args[0]; // add test webApiUrl
-    	transactionParams = new ArrayList<String>();
     	gestionInstagram = new GestionInstagram(webApiUrl);
     	
     	System.out.println("Bienvenue sur Instagram, saisissez vos commandes (pour obtenir l'aide, saisire : aide)");
@@ -95,6 +73,7 @@ public class ProjetRestClient {
                 	System.out.println("Vous pouvez utilisez les commandes suivantes");
                 	gestionInstagram.getGestionUser().displayHelp();
                 	GestionInstagram.getGestionPost().displayHelp();
+                	GestionInstagram.getGestionComment().displayHelp();
                 }
                 
                 /**
@@ -173,6 +152,47 @@ public class ProjetRestClient {
                 	GestionInstagram.getGestionPost().delete(idPost);
                 }
                 
+                /**
+                 * 		Comment Management
+                 */
+                
+                else if(command.equals("afficherCommentaires")) 
+                {
+                	GestionInstagram.getGestionComment().displayComments();
+                }
+                else if(command.equals("afficherCommentairesParUtilisateur")) 
+                {
+                	String idUser = readString(tokenizer);
+                	GestionInstagram.getGestionComment().displayCommentsByUser(idUser);;
+                }
+                else if(command.equals("afficherCommentairesParPoste")) 
+                {
+                	String idPost = readString(tokenizer);
+                	GestionInstagram.getGestionComment().displayCommentsByPost(idPost);;
+                }
+                else if(command.equals("afficherCommentaire")) 
+                {
+                	String idComment = readString(tokenizer);
+                	GestionInstagram.getGestionComment().displayComment(idComment);;
+                }
+                else if(command.equals("ajouterCommentaire")) 
+                {
+                	String message = readString(tokenizer);
+                	String postId = readString(tokenizer);
+                	String commentId = readString(tokenizer);
+                	GestionInstagram.getGestionComment().ajouter(message, postId, commentId);
+                }
+                else if(command.equals("modifierCommentaire")) 
+                {
+                	String idMessage = readString(tokenizer);
+                	String message = readString(tokenizer);
+                	GestionInstagram.getGestionComment().update(idMessage, message);
+                }
+                else if(command.equals("supprimerCommentaire")) 
+                {
+                	String idMessage = readString(tokenizer);
+                	GestionInstagram.getGestionComment().delete(idMessage);
+                }
                 
                 /**
                  * 		PAR DEFAUT

@@ -7,6 +7,7 @@ public class GestionInstagram {
 	private static String pathGestionInstagram;
 	private static GestionUser gestionUser;
 	private static GestionPost gestionPost;
+	private static GestionComment gestionComment;
 	private String token;
 	private User userConnected;
 
@@ -14,6 +15,7 @@ public class GestionInstagram {
 		setPathGestionInstagram(webApiUrl + "rest");
 		gestionUser = new GestionUser(this);
 		gestionPost= new GestionPost(this);
+		gestionComment = new GestionComment(this);
 		
 		token = null;
 		userConnected = null;
@@ -59,6 +61,14 @@ public class GestionInstagram {
 		GestionInstagram.gestionPost = gestionPost;
 	}
 	
+	public static GestionComment getGestionComment() {
+		return gestionComment;
+	}
+
+	public static void setGestionComment(GestionComment gestionComment) {
+		GestionInstagram.gestionComment = gestionComment;
+	}
+
 	public boolean userIsConnected() {
 		if(token != null && userConnected != null)
 			return true;
