@@ -79,7 +79,12 @@ public class UserService {
 	       if (id == 0){
 	           throw new SecurityException("Invalid user/password id = 0");
 	       }
-
+		
+		User user = userDao.getUserById(id);
+       		if (!user.isActive()){
+           		throw new SecurityException("Ce compte a été supprimé vous ne pouvez donc plus vous connecter, veuillez recreer un compte");
+       		}
+         
 	       // Issue a token for the user
 	       token = TokenManagement.generateToken(id,userDao);
 	       System.out.println("token created");
