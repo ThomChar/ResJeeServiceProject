@@ -93,7 +93,7 @@ public class PostDao {
 					this.em.close();
 				} catch (Exception e) {
 					this.em.getTransaction().rollback();
-					throw new InstaException("Le post demandé n'existe pas.");
+					throw new InstaException("Le post demandÃ© n'existe pas.");
 				}
 				return post;
 	}
@@ -108,7 +108,7 @@ public class PostDao {
 			this.em.close();
 		} catch (Exception e) {
 			this.em.getTransaction().rollback();
-			throw new InstaException("Le post n'a pas pu être cree");
+			throw new InstaException("Le post n'a pas pu Ãªtre cree");
 		}
 		return post;
 	}
@@ -120,6 +120,14 @@ public class PostDao {
 			this.em.getTransaction().begin();
 			Query query = em.createQuery("update post set comment = '" + comment + "' , image = '" + image + 
 										"' where id = '" + id +  "'") ;
+			if(comment == null && image == null) {
+				query = em.createQuery("update post set comment = NULL , image = NULL where id = '" + id +  "'") ;
+			}else if(comment == null) {
+				query = em.createQuery("update post set comment = NULL , image = '" + image +"' where id = '" + id +  "'") ;
+			}else if(image == null) {
+				query = em.createQuery("update post set comment = '" + comment + "' , image = NULL where id = '" + id +  "'") ;
+			}
+			
 			query.executeUpdate();
 			updated = true;
 			// Commit
@@ -127,7 +135,7 @@ public class PostDao {
 			this.em.close();
 		} catch (Exception e) {
 			this.em.getTransaction().rollback();
-			throw new InstaException("Le post "+ id +" n a pas pu être update");
+			throw new InstaException("Le post "+ id +" n a pas pu Ãªtre update");
 		}
 		return updated;
 	}
