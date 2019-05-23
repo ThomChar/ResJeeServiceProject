@@ -163,34 +163,30 @@ public class UserDao {
 		}
 	}
 
-	public boolean existe(String pseudo, String password) throws InstaException {
+	public boolean existe(String pseudo) throws InstaException {
 		// Cherche dans la base de donnée si une personne ayant pseudo et password existe
 		this.em = EMFManager.getEntityManager(); 
 		boolean find = false;
 		//User
-		try {
-			this.em.getTransaction().begin();
-			Query query = em.createQuery("select pseudo,password from user where pseudo = '" + pseudo +  "' and password = '" + password + "'") ;  
-			List<User> listUser = query.getResultList() ;
-			if(listUser.size()!=0)find = true;
-			// Commit
-			//em.getTransaction().commit();
-			this.em.close();
-		} catch (Exception e) {
-			this.em.getTransaction().rollback();
-			throw new InstaException("La recherhce du user n a pas pu etre effectuee");
-		}
+		this.em.getTransaction().begin();
+		Query query = em.createQuery("select u from user u where pseudo = '" + pseudo +  "'") ;  
+		List<User> listUser = query.getResultList() ;
+		if(listUser.size()!=0)find = true;
+		// Commit
+		//em.getTransaction().commit();
+		this.em.close();
+
 		return find;
 	}
 	
-	public User getUserAccountByLoginPassword(String pseudo, String password) throws InstaException {
+	public User getUserAccountByPseudo(String pseudo) throws InstaException {
 		// Cherche dans la base de donnée si une personne ayant pseudo et password existe
 		this.em = EMFManager.getEntityManager(); 
-		User user;
+		User user = null;
 		//User
 		try {
 			this.em.getTransaction().begin();
-			Query query = em.createQuery("select u from user u where pseudo = '" + pseudo +  "' and password = '" + password + "'") ;  
+			Query query = em.createQuery("SELECT u FROM user u WHERE pseudo = '" + pseudo+"'") ;  
 			List<User> listUser = query.getResultList() ;
 			user = listUser.get(0);
 			// Commit
@@ -198,7 +194,7 @@ public class UserDao {
 			this.em.close();
 		} catch (Exception e) {
 			this.em.getTransaction().rollback();
-			throw new InstaException("La recherche du user n a pas pu etre effectuee");
+			throw new InstaException("L'utilisateur "+pseudo+" n'existe pas.");
 		}
 		return user;
 	}

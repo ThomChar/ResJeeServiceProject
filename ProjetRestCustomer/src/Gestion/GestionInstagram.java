@@ -1,30 +1,53 @@
 package Gestion;
 
-import ParserXML.Parser;
+import Model.User;
 
 public class GestionInstagram {
 
-	private String webApiUrl;
-	private GestionUser gestionUser;
+	private static String pathGestionInstagram;
+	private static GestionUser gestionUser;
+	private String token;
+	private User userConnected;
 
 	public GestionInstagram(String webApiUrl) {
-		this.webApiUrl = webApiUrl;
+		setPathGestionInstagram(webApiUrl + "rest");
 		gestionUser = new GestionUser(this);
-	}
-
-	public String getWebApiUrl() {
-		return webApiUrl;
-	}
-
-	public void setWebApiUrl(String webApiUrl) {
-		this.webApiUrl = webApiUrl;
+		
+		token = null;
+		userConnected = null;
 	}
 
 	public GestionUser getGestionUser() {
 		return gestionUser;
 	}
 
-	public void setGestionUser(GestionUser gestionUser) {
-		this.gestionUser = gestionUser;
+	public static String getPathGestionInstagram() {
+		return pathGestionInstagram;
 	}
+
+	public static void setPathGestionInstagram(String pathGestionInstagram) {
+		GestionInstagram.pathGestionInstagram = pathGestionInstagram;
+	}
+
+	public static void setGestionUser(GestionUser gestionUser) {
+		GestionInstagram.gestionUser = gestionUser;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public User getUserConnected() {
+		return userConnected;
+	}
+
+	public void setUserConnected(User userConnected) {
+		this.userConnected = userConnected;
+	}
+	
+	
 }

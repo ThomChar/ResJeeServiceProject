@@ -49,7 +49,7 @@ public class ProjetRestClient {
     	transactionParams = new ArrayList<String>();
     	gestionInstagram = new GestionInstagram(webApiUrl);
     	
-    	System.out.println("Bienvenue sur Instagram, saisissez vos commandes (pour obtenir l'aide, saisir : aide)");
+    	System.out.println("Bienvenue sur Instagram, saisissez vos commandes (pour obtenir l'aide, saisire : aide)");
     	
         try
         {
@@ -82,7 +82,7 @@ public class ProjetRestClient {
         {
             System.out.print(transaction +"\n");
             // Decoupage de la transaction en mots
-            StringTokenizer tokenizer = new StringTokenizer(transaction, " ");
+            StringTokenizer tokenizer = new StringTokenizer(transaction, ",");
             if (tokenizer.hasMoreTokens())
             {
                 String command = tokenizer.nextToken();
@@ -90,10 +90,10 @@ public class ProjetRestClient {
                 /*
                  * USER
                  */
-                if(command.equals("help")) 
+                if(command.equals("aide")) 
                 {
                 	System.out.println("Vous pouvez utilisez les commandes suivantes");
-                	// gestionUser.help();
+                	gestionInstagram.getGestionUser().displayHelp();
                 	// gestionPost.help();
                 	// gestionComment.help();
                 }
@@ -104,8 +104,33 @@ public class ProjetRestClient {
                 else if(command.equals("afficherUtilisateur")) 
                 {
                 	String idUtilisateur = readString(tokenizer);
-                	System.out.println("Affichages de l'utilisateur"+idUtilisateur+"...");
-                	System.out.println("User "+idUtilisateur+"...");
+                	gestionInstagram.getGestionUser().displayUser(idUtilisateur);
+                }
+                else if(command.equals("ajouterUtilisateur")) 
+                {
+                	String pseudo = readString(tokenizer);
+                	String firstName = readString(tokenizer);
+                	String lastName = readString(tokenizer);
+                	String password = readString(tokenizer);
+                	gestionInstagram.getGestionUser().ajouter(firstName, lastName, pseudo, password);
+                }
+                else if(command.equals("login")) 
+                {
+                	String pseudo = readString(tokenizer);
+                	String password = readString(tokenizer);
+                	gestionInstagram.getGestionUser().login(pseudo, password);
+                }
+                else if(command.equals("modifierProfile")) 
+                {
+                	String pseudo = readString(tokenizer);
+                	String firstName = readString(tokenizer);
+                	String lastName = readString(tokenizer);
+                	gestionInstagram.getGestionUser().update(firstName, lastName, pseudo);
+                }
+                else if(command.equals("supprimerProfile")) 
+                {
+                	String id = readString(tokenizer);
+                	gestionInstagram.getGestionUser().delete();
                 }
                 else
                 {

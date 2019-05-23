@@ -19,10 +19,11 @@ public class ParserUsers {
 	    User emp = new User();
 	    if (node.getNodeType() == Node.ELEMENT_NODE) {
 	        Element element = (Element) node;
-	        emp.setName(Parser.getTagValue("name", element));
+	        emp.setFirstName(Parser.getTagValue("firstname", element));
 	        emp.setLastname(Parser.getTagValue("lastname", element));
 	        emp.setId(Integer.parseInt(Parser.getTagValue("id", element)));
 	        emp.setPseudo(Parser.getTagValue("pseudo", element));
+	        emp.setDateCreation(Parser.getTagValue("dateCreation", element));
 	    }
 
 	    return emp;
@@ -56,10 +57,10 @@ public class ParserUsers {
 		 Document doc = Parser.convertStringToDocument(userXML);
          doc.getDocumentElement().normalize();
          
-         Node node = doc.getFirstChild();
-         
+         NodeList nodeList = doc.getElementsByTagName("user");
+
          // convert document to Object
-         user = getUser(node);
+         user = getUser(nodeList.item(0));
 
 		} catch (Exception e1) {
             e1.printStackTrace();

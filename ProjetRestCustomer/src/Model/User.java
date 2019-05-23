@@ -1,26 +1,25 @@
 package Model;
 
-import java.io.Serializable;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "user")
-
-public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class User {
 	private int id;
-	private String name;
+	private String firstName;
 	private String lastname;
 	private String pseudo;
+	private String dateCreation;
+	private String password;
 
 	public User() {
 	}
 
-	public User(int id, String name, String lastname, String pseudo, String password) {
+	public User(int id, String firstName, String lastname, String pseudo, String dateCreation) {
+		super();
 		this.id = id;
-		this.name = name;
+		this.firstName = firstName;
 		this.lastname = lastname;
 		this.pseudo = pseudo;
+		this.dateCreation = dateCreation;
 	}
 
 	public int getId() {
@@ -30,15 +29,6 @@ public class User implements Serializable {
 	@XmlElement
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	@XmlElement
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getLastname() {
@@ -61,7 +51,31 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User (id=" + id + ") @" + pseudo + " : " + name + " " + lastname;
+		return "User (id=" + id + ") @" + pseudo + " : " + firstName + " " + lastname;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getDateCreation() {
+		return dateCreation;
+	}
+
+	public void setDateCreation(String dateCreation) {
+		this.dateCreation = dateCreation;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	
