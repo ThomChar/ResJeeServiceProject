@@ -1,5 +1,7 @@
 package Model;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.List;
 
@@ -7,8 +9,8 @@ public class Comment {
 
 	private int id;
 	private String message;
-	private String commentDate;
-
+	private LocalDateTime commentDate;
+	
 	private User user;
 	
 	private Post post;
@@ -57,12 +59,12 @@ public class Comment {
 		this.message = message;
 	}
 
-	public String getCommentDate() {
+	public LocalDateTime getCommentDate() {
 		return commentDate;
 	}
 
 	public void setCommentDate(String commentDate) {
-		this.commentDate = commentDate;
+		this.commentDate = LocalDateTime.parse(commentDate);
 	}
 
 	public User getUser() {
@@ -99,7 +101,11 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		return "@"+user.getPseudo() + "(id="+user.getId()+")"+
-				message + " -> Poste: " + post.toString();
+		String response = "(comment="+id+") @"+user.getPseudo() + "(id="+user.getId()+") "+ message + " \t le "+ commentDate.format(DateTimeFormatter.ISO_LOCAL_DATE) +" à "+ commentDate.format(DateTimeFormatter.ISO_LOCAL_TIME);;
+		
+		if(commentResponse != null)
+			response += "\n \t -> En réponse au commentaire ("+commentResponse.getId()+") : @" + commentResponse.getUser().getPseudo() + " " + commentResponse.getMessage() + " \t le "+ commentResponse.getCommentDate().format(DateTimeFormatter.ISO_LOCAL_DATE) +" à "+ commentResponse.getCommentDate().format(DateTimeFormatter.ISO_LOCAL_TIME);
+		
+		return response;
 	}
 }

@@ -65,7 +65,7 @@ public class Comment implements Serializable {
 		this.message = message;
 		this.user = user;
 		this.post = post;
-		//this.commentResponse = commentRefered;
+		this.commentDate = commentDate;
 		this.isActive = true;
 	}
 
@@ -100,7 +100,6 @@ public class Comment implements Serializable {
 		return isActive;
 	}
 	
-	@XmlElement
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
@@ -136,7 +135,7 @@ public class Comment implements Serializable {
 		return commentResponse;
 	}
 
-	@XmlElement
+	@XmlElement(name ="responseComment")
 	public void setComment(Comment comment) {
 		this.commentResponse = comment;
 	}

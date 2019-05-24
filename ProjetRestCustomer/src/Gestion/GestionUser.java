@@ -108,7 +108,6 @@ public class GestionUser {
 
 		if(response.getStatus() == 200) {
 			String token = response.readEntity(String.class);
-			//System.out.println("token:"+token);
 			gestionInstagram.setToken(token);
 
 			String usersXML = target.path("pseudo").path(pseudo).

@@ -1,5 +1,9 @@
 package Model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Collection;
 import java.util.List;
 
@@ -9,7 +13,7 @@ public class Post{
 	private int id;
 	private String image;
 	private String comment;
-	private String postDate;
+	private LocalDateTime postDate;
 
 	private User user;
 	
@@ -22,20 +26,20 @@ public class Post{
 		this.id = id;
 		this.image = image;
 		this.comment = comment;
-		this.postDate = postDate;
+		this.postDate = LocalDateTime.parse(postDate);
 	}
 
 	public Post(String image, String comment, String postDate, User user) {
 		this.image = image;
 		this.comment = comment;
-		this.postDate = postDate;
+		this.postDate = LocalDateTime.parse(postDate);
 		this.user = user;
 	}
 	
 	public Post(String image, String comment, String postDate) {
 		this.image = image;
 		this.comment = comment;
-		this.postDate = postDate;
+		this.postDate = LocalDateTime.parse(postDate);
 	}
 
 	public int getId() {
@@ -65,13 +69,13 @@ public class Post{
 		this.comment = comment;
 	}
 
-	public String getPostDate() {
+	public LocalDateTime getPostDate() {
 		return postDate;
 	}
 
 	@XmlElement
 	public void setPostDate(String postDate) {
-		this.postDate = postDate;
+		this.postDate = LocalDateTime.parse(postDate);
 	}
 
 	public User getUser() {
@@ -94,6 +98,6 @@ public class Post{
 
 	@Override
 	public String toString() {
-		return "Post (id=" + id + ") " + "@" + user.getPseudo() + " : " +comment;
+		return "Post (id=" + id + ") " + "@" + user.getPseudo() + " : " +comment+ "\t le " + postDate.format(DateTimeFormatter.ISO_LOCAL_DATE) +" à "+ postDate.format(DateTimeFormatter.ISO_LOCAL_TIME);
 	}	
 }

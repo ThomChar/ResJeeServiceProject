@@ -78,7 +78,7 @@ public class CommentService {
    @POST
    @Path("/comments") 
    @Produces(MediaType.APPLICATION_XML) 
-   public Response createComment(@FormParam("message") String message, @FormParam("userId") int userId, @FormParam("postId") int postId, @FormParam("commentId") int commentId, @HeaderParam(value="authentificationToken") String headers) throws Exception{
+   public Response createComment(@FormParam("message") String message, @FormParam("userId") int userId, @FormParam("postId") int postId, @FormParam("commentId") String commentId, @HeaderParam(value="authentificationToken") String headers) throws Exception{
 	   try {
 		   Comment comment = null;
 		   String UUID ="";
@@ -87,14 +87,12 @@ public class CommentService {
 	           User userBD = userDao.getUserById(userId);
 	           UUID = userBD.getUUID();
 	       }catch(Exception e){
-	           throw new Exception("Le userIDMember du token ne correspond ├а aucun utilisateur");
+	           throw new Exception("Le userIDMember du token ne correspond ра aucun utilisateur");
 	       }
 	       
 	       //headers.getHeaderString("authentificationToken")
 	       if (!TokenManagement.verifyToken(headers,UUID)) {
-	
 	             throw new NotAuthorizedException("Invalid token");
-	
 	       }
 	       
 		   LocalDateTime creationDate = LocalDateTime.now();
@@ -103,8 +101,10 @@ public class CommentService {
 		   Post post = postDao.getPostById(postId);
 		   Comment commentRefered = new Comment();
 		   
-		   if(commentId != 0) {
-			   commentRefered = commentDao.getCommentById(commentId);
+		   int commentIdInt = Integer.parseInt(commentId);
+		   
+		   if(commentIdInt != 0) {
+			   commentRefered = commentDao.getCommentById(commentIdInt);
 			   if(commentRefered.getPost().getId() == post.getId()) {
 				   comment = new Comment(message, creationDate.toString(), user, post , commentRefered);
 			   }else {
@@ -117,7 +117,6 @@ public class CommentService {
 		   
 		   commentDao.createComment(comment);
 			 
-
 		   return Response.ok().build();
 	   } catch(Exception e) {
 		   System.out.println("ERROR:"+e.getMessage());
@@ -135,9 +134,9 @@ public class CommentService {
 		try{
 		   Comment comment = commentDao.getCommentById(id);
 		   User userBD = userDao.getUserById(comment.getUser().getId());
-	           UUID = userBD.getUUID();
+	       UUID = userBD.getUUID();
 	       }catch(Exception e){
-	           throw new Exception("Le userIDMember du token ne correspond ├а aucun utilisateur");
+	           throw new Exception("Le userIDMember du token ne correspond р aucun utilisateur");
 	       }
 	       
 	       //headers.getHeaderString("authentificationToken")
